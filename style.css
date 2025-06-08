@@ -1,0 +1,25 @@
+/* 共通のボタンスタイル */
+button {
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  margin: 6px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* ナビゲーションボタン用に横並びもしたいなら */
+nav {
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
