@@ -2,8 +2,6 @@
 button {
   font-size: 1.2rem;
   padding: 12px 20px;
-  min-width: 140px; /* 👈 ボタンサイズを揃える */
-  text-align: center;
   margin: 6px;
   border: none;
   border-radius: 8px;
@@ -12,6 +10,7 @@ button {
   cursor: pointer;
   transition: background-color 0.3s;
   white-space: nowrap; /* 👈 折り返しを防ぐ */
+  min-width: 140px; /* 👈 ボタンサイズを揃える */
 }
 
 button:hover {
@@ -20,9 +19,9 @@ button:hover {
 
 /* ナビゲーションボタン用に横並びもしたいなら */
 nav {
+  margin: 10px 0;
   display: flex;
-  justify-content: center;
+  flex-wrap: nowrap;
   gap: 10px;
-  flex-wrap: wrap; /* ←必要に応じて nowrap にすることもできる */
-  margin-bottom: 20px;
+  justify-content: center;
 }
