@@ -2,7 +2,7 @@
 button {
   font-size: 1.2rem;
   padding: 12px 20px;
-  min-width: 120px; /* 👈 ボタンサイズを揃える */
+  min-width: 140px; /* 👈 ボタンサイズを揃える */
   text-align: center;
   margin: 6px;
   border: none;
