@@ -71,9 +71,21 @@ document.addEventListener('DOMContentLoaded', () => {
       li.textContent = 'タスクはありません。';
       taskList.appendChild(li);
     } else {
-      tasks.forEach(task => {
+      tasks.forEach((task, index) => {
         const li = document.createElement('li');
         li.textContent = task;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '削除';
+        deleteButton.style.marginLeft = '10px';
+        deleteButton.addEventListener('click', () => {
+          // 削除処理
+          tasks.splice(index, 1);
+          localStorage.setItem('tasks', JSON.stringify(tasks));
+          location.reload(); // 表示を更新
+        });
+
+        li.appendChild(deleteButton);
         taskList.appendChild(li);
       });
     }
