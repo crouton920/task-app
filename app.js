@@ -1,39 +1,37 @@
 // app.js
 
 document.addEventListener('DOMContentLoaded', () => {
+  const STORAGE_KEY = 'tasks';
+
+  // --- ランダム表示用 ---
   const drawButton = document.getElementById('drawButton');
   const result = document.getElementById('result');
 
-  drawButton.addEventListener('click', () => {
-    // 1. localStorageからタスクリストを読み込む
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  if (drawButton && result) {
+    drawButton.addEventListener('click', () => {
+      const tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-    if (tasks.length === 0) {
-      result.textContent = 'タスクがありません。';
-      return;
-    }
+      if (tasks.length === 0) {
+        result.textContent = 'タスクがありません。';
+        return;
+      }
 
-    // 2. ランダムに1つ取り出す
-    const randomIndex = Math.floor(Math.random() * tasks.length);
-    const chosenTask = tasks[randomIndex];
+      const randomIndex = Math.floor(Math.random() * tasks.length);
+      const chosenTask = tasks[randomIndex];
 
-    // 3. 表示する
-    result.textContent = chosenTask;
+      result.textContent = chosenTask;
 
-    // 4. リストから削除して保存
-    tasks.splice(randomIndex, 1);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  });
-});
+      tasks.splice(randomIndex, 1);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    });
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // ...すでにあるコードの続きでOK！
-
+  // --- タスク追加用 ---
   const taskInput = document.getElementById('taskInput');
   const addButton = document.getElementById('addButton');
   const message = document.getElementById('message');
 
-  if (addButton) {
+  if (addButton && taskInput && message) {
     addButton.addEventListener('click', () => {
       const newTask = taskInput.value.trim();
 
@@ -42,29 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // 既存のタスクリストを取得
-      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-      // 新しいタスクを追加
+      const tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
       tasks.push(newTask);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 
-      // 保存
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-
-      // 入力欄をリセット、メッセージ表示
       taskInput.value = '';
       message.textContent = 'タスクを追加しました！';
     });
   }
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-  // ...すでにあるコードの続きでOK！
-
+  // --- タスクリスト表示＋削除機能 ---
   const taskList = document.getElementById('taskList');
+  const deleteButton = document.getElementById('deleteButton');
 
   if (taskList) {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
     if (tasks.length === 0) {
       const li = document.createElement('li');
@@ -73,21 +63,38 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       tasks.forEach((task, index) => {
         const li = document.createElement('li');
-        li.textContent = task;
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '削除';
-        deleteButton.style.marginLeft = '10px';
-        deleteButton.addEventListener('click', () => {
-          // 削除処理
-          tasks.splice(index, 1);
-          localStorage.setItem('tasks', JSON.stringify(tasks));
-          location.reload(); // 表示を更新
-        });
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = index;
+        checkbox.classList.add('task-checkbox');
 
-        li.appendChild(deleteButton);
+        const label = document.createElement('label');
+        label.textContent = task;
+
+        li.appendChild(checkbox);
+        li.appendChild(label);
         taskList.appendChild(li);
       });
     }
   }
+
+  if (deleteButton) {
+    deleteButton.addEventListener('click', () => {
+      const tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      const checkboxes = document.querySelectorAll('.task-checkbox');
+
+      const newTasks = [];
+
+      checkboxes.forEach((checkbox, i) => {
+        if (!checkbox.checked) {
+          newTasks.push(tasks[i]);
+        }
+      });
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newTasks));
+      location.reload(); // ページ再読み込みして反映
+    });
+  }
+
 });
