@@ -40,3 +40,9 @@ input[type="text"] {
 li label {
   margin-left: 8px;
 }
+
+/* タスクリストのマーカーを非表示にする */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
