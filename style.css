@@ -46,3 +46,8 @@ ul {
   list-style: none;
   padding-left: 0;
 }
+
+/* h1だけサンセリフに変更 */
+h1 {
+  font-family: 'Noto Sans JP', sans-serif;
+}
